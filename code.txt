@@ -1,0 +1,313 @@
+HTML
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Star Moles!</title>
+  <link rel="stylesheet" href="mole.css">
+</head>
+
+<body>
+  <section class="bg">
+    <div class="worm-box">
+      <div style="width: 5%" class="worm-container">
+        <img class="worm" src="./worm.png" alt="worm meter">
+      </div>
+    </div>
+    <div class="hole-container">
+      <div class="hole" id="hole-0"><img data-index="0" src="./king-mole-hungry.png" alt="mole" class="mole"></div>
+    </div>
+    <div class="hole-container">
+      <div class="hole" id="hole-1"><img data-index="1" src="./king-mole-fed.png" alt="mole" class="mole"></div>
+    </div>
+    <div class="hole-container">
+      <div class="hole" id="hole-2"><img data-index="2" src="./king-mole-hungry.png" alt="mole" class="mole"></div>
+    </div>
+    <div class="hole-container">
+      <div class="hole" id="hole-3"><img data-index="3" src="./king-mole-sad.png" alt="mole" class="mole"></div>
+    </div>
+    <div class="hole-container">
+      <div class="hole" id="hole-4"><img data-index="4" src="./king-mole-leaving.png" alt="mole" class="mole"></div>
+    </div>
+    <div class="hole-container">
+      <div class="hole" id="hole-5"><img data-index="5" src="./mole-hungry.png" alt="mole" class="mole"></div>
+    </div>
+    <div class="hole-container">
+      <div class="hole" id="hole-6"><img data-index="6" src="./mole-fed.png" alt="mole" class="mole"></div>
+    </div>
+    <div class="hole-container">
+      <div class="hole" id="hole-7"><img data-index="7" src="./mole-sad.png" alt="mole" class="mole"></div>
+    </div>
+    <div class="hole-container">
+      <div class="hole" id="hole-8"><img data-index="8" src="./mole-leaving.png" alt="mole" class="mole"></div>
+    </div>
+    <div class="hole-container">
+      <div class="hole" id="hole-9"><img data-index="9" src="./king-mole-hungry.png" alt="happy mole" class="mole"></div>
+    </div>
+  </section>
+  <img class="win" src="win.png" alt="mole">
+  <script src="mole.js"></script>
+</body>
+
+</html>
+
+
+
+
+CSS
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  cursor: url(./cursor.png), default;
+  background-color: #c0c86d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+}
+
+.bg {
+  background-image: url(./background.png);
+  background-repeat: no-repeat;
+  width: 1920px;
+  height: 1080px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.hole {
+  background: black;
+  border-radius: 50%;
+  overflow: visible;
+  width: 267px;
+  height: 267px;
+}
+
+.hole-container {
+  width: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mole {
+  position: relative;
+  right: 30px;
+}
+
+.hungry {
+  cursor: url(./cursor-worm.png), pointer;
+}
+
+.gone {
+  display: none;
+}
+
+.worm {
+  width: 1660px;
+}
+
+.worm-container {
+  overflow: hidden;
+  transition: width 0.5s ease-in-out;
+}
+
+.worm-box {
+  width: 1660px;
+}
+
+.win {
+  max-width: 100vw;
+  max-height: 100vh;
+  display: none;
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
+
+
+javascript
+
+
+const MIN_INTERVAL = 2000;
+const MAX_INTERVAL = 20000;
+const SAD_INTERVAL = 500;
+const HUNGRY_INTERVAL = 2000;
+const wormContainer = document.querySelector(".worm-container");
+let score = 0;
+
+const getInterval = () =>
+  Date.now() + MIN_INTERVAL + Math.floor(Math.random() * MAX_INTERVAL);
+const getSadInterval = () => Date.now() + SAD_INTERVAL;
+const getKingStatus = () => Math.random() > 0.9;
+const getHungryInterval = () => Date.now() + HUNGRY_INTERVAL;
+
+const moles = [
+  {
+    status: "sad",
+    next: getSadInterval(),
+    king: true,
+    node: document.getElementById("hole-0")
+  },
+  {
+    status: "sad",
+    next: getSadInterval(),
+    king: true,
+    node: document.getElementById("hole-1")
+  },
+  {
+    status: "sad",
+    next: getSadInterval(),
+    king: true,
+    node: document.getElementById("hole-2")
+  },
+  {
+    status: "sad",
+    next: getSadInterval(),
+    king: true,
+    node: document.getElementById("hole-3")
+  },
+  {
+    status: "sad",
+    next: getSadInterval(),
+    king: true,
+    node: document.getElementById("hole-4")
+  },
+  {
+    status: "sad",
+    next: getSadInterval(),
+    king: true,
+    node: document.getElementById("hole-5")
+  },
+  {
+    status: "sad",
+    next: getSadInterval(),
+    king: true,
+    node: document.getElementById("hole-6")
+  },
+  {
+    status: "sad",
+    next: getSadInterval(),
+    king: true,
+    node: document.getElementById("hole-7")
+  },
+  {
+    status: "sad",
+    next: getSadInterval(),
+    king: true,
+    node: document.getElementById("hole-8")
+  },
+  {
+    status: "sad",
+    next: getSadInterval(),
+    king: true,
+    node: document.getElementById("hole-9")
+  }
+];
+
+const getNextStatus = mole => {
+  switch (mole.status) {
+    case "sad":
+    case "fed":
+      mole.next = getSadInterval();
+      if (mole.king) {
+        mole.node.children[0].src = "./king-mole-leaving.png";
+      } else {
+        mole.node.children[0].src = "./mole-leaving.png";
+      }
+      mole.status = "leaving";
+      break;
+    case "leaving":
+      mole.next = getInterval();
+      mole.king = false;
+      mole.node.children[0].classList.toggle("gone", true);
+      mole.status = "gone";
+      break;
+    case "hungry":
+      mole.node.children[0].classList.toggle("hungry", false);
+      if (mole.king) {
+        mole.node.children[0].src = "./king-mole-sad.png";
+      } else {
+        mole.node.children[0].src = "./mole-sad.png";
+      }
+      mole.status = "sad";
+      mole.next = getSadInterval();
+      break;
+    case "gone":
+      mole.status = "hungry";
+      mole.king = getKingStatus();
+      mole.next = getHungryInterval();
+      mole.node.children[0].classList.toggle("hungry", true);
+      mole.node.children[0].classList.toggle("gone", false);
+      if (mole.king) {
+        mole.node.children[0].src = "./king-mole-hungry.png";
+      } else {
+        mole.node.children[0].src = "./mole-hungry.png";
+      }
+      break;
+  }
+};
+
+const feed = e => {
+  if (e.target.tagName !== "IMG" || !e.target.classList.contains("hungry")) {
+    return;
+  }
+
+  const mole = moles[+e.target.dataset.index];
+
+  mole.status = "fed";
+  mole.next = getSadInterval();
+  mole.node.children[0].classList.toggle("hungry", false);
+  if (mole.king) {
+    mole.node.children[0].src = "./king-mole-fed.png";
+    score += 20;
+  } else {
+    mole.node.children[0].src = "./mole-fed.png";
+    score += 10;
+  }
+
+  if (score >= 100) {
+    win();
+    return;
+  }
+
+  wormContainer.style.width = `${score}%`;
+};
+
+const win = () => {
+  document.querySelector(".bg").classList.toggle("hide", true);
+  document.querySelector(".win").classList.toggle("show", true);
+};
+
+document.querySelector(".bg").addEventListener("click", feed);
+
+const nextFrame = () => {
+  const now = Date.now();
+  for (let i = 0; i < moles.length; i++) {
+    if (moles[i].next < now) {
+      getNextStatus(moles[i]);
+    }
+  }
+  requestAnimationFrame(nextFrame);
+};
+
+requestAnimationFrame(nextFrame);
